@@ -1,7 +1,29 @@
 BluetoothCompat
 ===============
 
-Compatibility library back-porting the Android 5.0 Bluetooth LE Scanner api concepts to older releases.
+Compatibility library back-porting the Android 5.0 Bluetooth LE Scanner api concepts to API 18+.
+
+
+Mapping of Classes
+------------------
+
+ScanFilterCompat - Add filters in a manner similar to Scan Filter
+
+ScanSettingsCompat - Add settings in a manner similar to Scan Settings. Note: Power levels only honored at moment on 5.0 (API 21+)
+
+ScanCallbackCompat - Compatible version of ScanCallback.
+
+ScanResultCompat - Compatible version of the scan result.
+
+ScanRecordCompat - Compatible version of the scan record.
+
+
+To Use
+------
+
+BluetoothLeScannerCompat.startScan(bluetoothAdapter, scanFilters, scanSettings, callback);
+
+BluetoothLeScannerCompat.stopScan(bluetoothAdapter, callback);
 
 License
 -------
