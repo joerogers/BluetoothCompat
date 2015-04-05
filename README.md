@@ -7,15 +7,15 @@ Compatibility library back-porting the Android 5.0 Bluetooth LE Scanner api conc
 Mapping of Classes
 ------------------
 
-ScanFilterCompat - Add filters in a manner similar to Scan Filter
+ScanFilterCompat - Add filters in a manner similar to ScanFilter
 
-ScanSettingsCompat - Add settings in a manner similar to Scan Settings. Note: Power levels only honored at moment on 5.0 (API 21+)
+ScanSettingsCompat - Add settings in a manner similar to ScanSettings. Note: Power levels only honored at moment on 5.0 (API 21+)
 
 ScanCallbackCompat - Compatible version of ScanCallback.
 
-ScanResultCompat - Compatible version of the scan result.
+ScanResultCompat - Compatible version of the ScanResult.
 
-ScanRecordCompat - Compatible version of the scan record.
+ScanRecordCompat - Compatible version of the ScanRecord.
 
 
 To Use
