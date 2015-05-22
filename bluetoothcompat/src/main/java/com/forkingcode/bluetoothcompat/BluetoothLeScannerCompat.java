@@ -25,14 +25,16 @@ import android.bluetooth.le.ScanSettings;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.SimpleArrayMap;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class BluetoothLeScannerCompat {
+
+    private static final String TAG = "BTLeScannerCompat";
 
     public static void flushPendingScanResults(@NonNull BluetoothAdapter adapter, @NonNull ScanCallbackCompat callbackCompat) {
         IMPL.flushPendingScanResults(adapter, callbackCompat);
@@ -63,18 +65,18 @@ public class BluetoothLeScannerCompat {
     }
 
     interface BluetoothLeScannerCompatImpl {
-        public void flushPendingScanResults(BluetoothAdapter adapter, ScanCallbackCompat callbackCompat);
+        void flushPendingScanResults(BluetoothAdapter adapter, ScanCallbackCompat callbackCompat);
 
-        public void startScan(BluetoothAdapter adapter, List<ScanFilterCompat> filters, ScanSettingsCompat settings, ScanCallbackCompat callbackCompat);
+        void startScan(BluetoothAdapter adapter, List<ScanFilterCompat> filters, ScanSettingsCompat settings, ScanCallbackCompat callbackCompat);
 
-        public void startScan(BluetoothAdapter adapter, ScanCallbackCompat callbackCompat);
+        void startScan(BluetoothAdapter adapter, ScanCallbackCompat callbackCompat);
 
-        public void stopScan(BluetoothAdapter adapter, ScanCallbackCompat callbackCompat);
+        void stopScan(BluetoothAdapter adapter, ScanCallbackCompat callbackCompat);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     static class API21BluetoothLeScannerCompatImpl implements BluetoothLeScannerCompatImpl {
-        static final Map<ScanCallbackCompat, API21ScanCallback> callbackMap = new HashMap<>();
+        static final SimpleArrayMap<ScanCallbackCompat, API21ScanCallback> callbackMap = new SimpleArrayMap<>();
 
         @Override
         public void flushPendingScanResults(BluetoothAdapter adapter, ScanCallbackCompat callbackCompat) {
@@ -131,7 +133,7 @@ public class BluetoothLeScannerCompat {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     static class API18BluetoothLeScannerCompatImpl implements BluetoothLeScannerCompatImpl {
-        static final Map<ScanCallbackCompat, API18ScanCallback> callbackMap = new HashMap<>();
+        static final SimpleArrayMap<ScanCallbackCompat, API18ScanCallback> callbackMap = new SimpleArrayMap<>();
 
         @Override
         public void flushPendingScanResults(BluetoothAdapter adapter, ScanCallbackCompat callbackCompat) {
@@ -176,15 +178,18 @@ public class BluetoothLeScannerCompat {
     static class API18ScanCallback implements BluetoothAdapter.LeScanCallback {
 
         private final List<ScanFilterCompat> filters;
-        private final ScanCallbackCompat callbackCompat;
+        private final WeakReference<ScanCallbackCompat> callbackCompatRef;
 
         API18ScanCallback(List<ScanFilterCompat> filters, ScanCallbackCompat callbackCompat) {
             this.filters = filters;
-            this.callbackCompat = callbackCompat;
+            this.callbackCompatRef = new WeakReference<>(callbackCompat);
         }
 
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+            ScanCallbackCompat callbackCompat = callbackCompatRef.get();
+            if (callbackCompat == null) return;
+
             ScanResultCompat result = new ScanResultCompat(
                     device,
                     ScanRecordCompat.parseFromBytes(scanRecord),
@@ -209,19 +214,24 @@ public class BluetoothLeScannerCompat {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     static class API21ScanCallback extends ScanCallback {
 
-        private final ScanCallbackCompat callbackCompat;
+        private final WeakReference<ScanCallbackCompat> callbackCompatRef;
 
         API21ScanCallback(ScanCallbackCompat callbackCompat) {
-            this.callbackCompat = callbackCompat;
+            this.callbackCompatRef = new WeakReference<>(callbackCompat);
         }
 
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
-            callbackCompat.onScanResult(callbackType, new ScanResultCompat(result));
+            ScanCallbackCompat callbackCompat = callbackCompatRef.get();
+            if (callbackCompat != null) {
+                callbackCompat.onScanResult(callbackType, new ScanResultCompat(result));
+            }
         }
 
         @Override
         public void onBatchScanResults(List<ScanResult> results) {
+            ScanCallbackCompat callbackCompat = callbackCompatRef.get();
+            if (callbackCompat == null) return;
             List<ScanResultCompat> compatResults = new ArrayList<>(results.size());
             for (ScanResult result : results) {
                 compatResults.add(new ScanResultCompat(result));
@@ -231,8 +241,10 @@ public class BluetoothLeScannerCompat {
 
         @Override
         public void onScanFailed(int errorCode) {
-            callbackCompat.onScanFailed(errorCode);
+            ScanCallbackCompat callbackCompat = callbackCompatRef.get();
+            if (callbackCompat != null) {
+                callbackCompat.onScanFailed(errorCode);
+            }
         }
     }
-
 }
