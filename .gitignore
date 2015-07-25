@@ -17,6 +17,7 @@ build/
 # Local configuration file (sdk path, etc)
 local.properties
 keystore.properties
+bintray.properties
 
 # Mac OS X Files
 .DS_Store

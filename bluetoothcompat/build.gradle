@@ -23,3 +23,12 @@ dependencies {
     compile 'com.android.support:support-annotations:22.2.1'
     compile 'com.android.support:support-v4:22.2.1'
 }
+
+ext {
+    libraryName = 'BluetoothCompat'
+    libraryDescription = 'Compatibility library back-porting the Android 5.0 Bluetooth LE Scanner api concepts to API 18+.'
+    libraryVersion = project.libraryVersion
+    bintrayDryRun = isDryRun()
+}
+
+apply from: '../bintray.gradle'
