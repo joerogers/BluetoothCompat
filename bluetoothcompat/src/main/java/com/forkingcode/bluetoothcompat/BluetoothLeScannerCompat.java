@@ -25,6 +25,7 @@ import android.bluetooth.le.ScanSettings;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
 import android.support.v4.util.SimpleArrayMap;
 
 import java.lang.ref.WeakReference;
@@ -40,14 +41,17 @@ public class BluetoothLeScannerCompat {
         IMPL.flushPendingScanResults(adapter, callbackCompat);
     }
 
+    @RequiresPermission("android.permission.BLUETOOTH_ADMIN")
     public static void startScan(@NonNull BluetoothAdapter adapter, @Nullable List<ScanFilterCompat> filters, @NonNull ScanSettingsCompat settings, @NonNull ScanCallbackCompat callbackCompat) {
         IMPL.startScan(adapter, filters, settings, callbackCompat);
     }
 
+    @RequiresPermission("android.permission.BLUETOOTH_ADMIN")
     public static void startScan(@NonNull BluetoothAdapter adapter, @NonNull ScanCallbackCompat callbackCompat) {
         IMPL.startScan(adapter, callbackCompat);
     }
 
+    @RequiresPermission("android.permission.BLUETOOTH_ADMIN")
     public static void stopScan(@NonNull BluetoothAdapter adapter, @NonNull ScanCallbackCompat callbackCompat) {
         IMPL.stopScan(adapter, callbackCompat);
     }
