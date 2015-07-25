@@ -21,8 +21,8 @@ allprojects {
 }
 
 def isDryRun() {
-    if (project.hasProperty('dryrun')) {
-        return project.dryrun.toBoolean()
+    if (project.hasProperty('dryRun')) {
+        return project.dryRun.toBoolean()
     }
     return true
 }

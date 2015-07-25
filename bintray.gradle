@@ -45,6 +45,7 @@ bintray {
         desc = libraryDescription
         websiteUrl = 'https://github.com/joerogers/BluetoothCompat'
         vcsUrl = 'https://github.com/joerogers/BluetoothCompat.git'
+        issueTrackerUrl = 'https://github.com/joerogers/BluetoothCompat/issues'
         licenses = ["Apache-2.0"]
 
         version {
