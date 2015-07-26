@@ -3,8 +3,17 @@ BluetoothCompat
 
 Compatibility library back-porting the Android 5.0 Bluetooth LE Scanner api concepts to API 18+.
 
-[ ![Download](https://api.bintray.com/packages/joerogers/maven/BluetoothCompat/images/download.svg) ](https://bintray.com/joerogers/maven/BluetoothCompat/_latestVersion)
-  
+[ ![Download](https://api.bintray.com/packages/joerogers/maven/bluetoothcompat/images/download.svg) ](https://bintray.com/joerogers/maven/bluetoothcompat/_latestVersion)
+
+Gradle
+------
+
+```
+dependencies {
+    compile 'com.forkingcode.bluetoothcompat:bluetoothcompat:1.0.0'
+}
+```
+
 Mapping of Classes
 ------------------
 
