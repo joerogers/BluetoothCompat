@@ -1,9 +1,11 @@
-## Deprecated
+## DEPRECATED
+
+Use the native libraries directly and set a minimum target of at least API 21.
 
 BluetoothCompat
 ===============
 
-Compatibility library back-porting the Android 5.0 Bluetooth LE Scanner api concepts to API 18+.
+Compatibility library back-porting the Android 5.0 Bluetooth LE Scanner api concepts to API 18+.  
 
 
 Gradle
