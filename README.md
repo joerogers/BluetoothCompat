@@ -1,9 +1,10 @@
+## Deprecated
+
 BluetoothCompat
 ===============
 
 Compatibility library back-porting the Android 5.0 Bluetooth LE Scanner api concepts to API 18+.
 
-[ ![Download](https://api.bintray.com/packages/joerogers/maven/bluetoothcompat/images/download.svg) ](https://bintray.com/joerogers/maven/bluetoothcompat/_latestVersion)
 
 Gradle
 ------
